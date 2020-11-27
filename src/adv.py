@@ -44,9 +44,7 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
-# Main
-#
+##################### Main #######################
 
 # Make a new player object that is currently in the 'outside' room.
 player_name = input('What is your name? ')
@@ -63,130 +61,7 @@ player = Player(player_name, room['outside'])
 #
 # If the user enters "q", quit the game.
 
-# This is one way to do it:
-# user_input = ''
-# while user_input != 'q':
-#     print('You are currently in the', new_player.current_room.name, '\n')
-#     print(new_player.current_room.description)
-
-#     user_input = input('''
-#     Where would you like to go now?
-#     Type "n" for North, "s" for South, "e" for East, "w" for West, or "q" for quit: ''')
-#     print()
-
-#     if user_input == 'n':
-#         if new_player.current_room.n_to == None:
-#             print(f'Can not go North. Going back to {new_player.current_room.name}.\n')
-#         else:
-#             new_player.current_room = new_player.current_room.n_to
-
-#     elif user_input == 's':
-#         if new_player.current_room.s_to == None:
-#             print(f'Can not go South. Going back to {new_player.current_room.name}.\n')
-#         else:
-#             new_player.current_room = new_player.current_room.s_to
-
-#     elif user_input == 'e':
-#         if new_player.current_room.e_to == None:
-#             print(f'Can not go East. Going back to {new_player.current_room.name}.\n')
-#         else:
-#             new_player.current_room = new_player.current_room.e_to
-
-#     elif user_input == 'w':
-#         if new_player.current_room.w_to == None:
-#             print(f'Can not go West. Going back to {new_player.current_room.name}.\n')
-#         else:
-#             new_player.current_room = new_player.current_room.w_to
-
-#     elif user_input == 'q':
-#         print('Thank you for playing!')
-    
-#     else:
-#         print(f'Invalid input, going back to {new_player.current_room.name}.\n')
-
-
-# A shorter way to do the same as above:
-# Assign variables to common items:
-room_now = player.current_room
-room_name = player.current_room.name
-room_description = player.current_room.description
-item_name = player.current_room.inventory.name
-item_decription = player.current_room.inventory.description
-
-# def room_logic(direction):
-#     # Check if player input is n, s, e, or w
-#     if direction=='n' or direction=='s' or direction=='e' or direction=='w':
-#         move = direction + '_to'
-
-#         # If there is nothing in that direction
-#         if not getattr(room_now, move):
-#             print(f'\nOops, can not go that way! Going back to {room_name}.')
-        
-#         # Move to the new location
-#         else:
-#             getattr(room_now, move)
-
-#     # If the player inputs q to quit the game
-#     elif direction == 'q':
-#         print('\nThank you for playing!')
-
-#     # If the player inputs an invalid letter
-#     else: 
-#         print(f'\nInvalid input, going back to the {room_name}.')
-
-# # Create an empty variable to hold the player input
-# player_input = ''
-
-# # Create a loop to keep playing unitl the player types q to quit
-# while player_input != 'q':
-#     # Check if the player has moved yet
-#     # Keep current room stable
-#     # if room_now == player.current_room:
-#     #     current_room = player.current_room
-
-#     # # Current room updates to players new location
-#     # else:
-#     #     current_room = room_now
-
-#     # Print Player name, current location, and location desscription
-#     print(f'\n{player_name} is currently in the {room_name}.\n')
-#     print(room_description)
-
-#     # Print the item in the room
-#     print(f'''\nYou see something on the ground, it looks like a {item_name}.\n
-#           {item_decription}\n''')
-
-#     # Prompt user to take or leave item in the room
-#     take_item = input(f'Do you want to take the {item_name}? y = yes / n = no: ')
-
-#     # If the player wants to take the item
-#     if take_item.lower() == 'y':
-#         player.grab(room_now.inventory)
-#         # for i in [room_now.inventory]:
-#         #     [inventory].remove(i)
-
-#         # Prompt player with option of removing an item from their inventory
-#         drop_item = input('\nWould you like to drop an item? y = yes / n = no: ')
-        
-#         # If the player chooses to remove item from inventory
-#         if drop_item.lower() == 'y':
-#             item_to_drop = input(f'''\nWhat would you like to remove from your inventory? \n
-#             {room_now.inventory}: ''')
-#             player.rem_item(item_to_drop.lower().strip())
-    
-#     # Let player know they are leaving the item
-#     else:
-#         print(f'\nYou are leaving {item_name} behind.')
-#         print(f'\nThis is your current inventory:\n{room_now.inventory}')
-
-#     # Prompt player to move to a new location
-#     player_input = input('''
-#     Where would you like to go now?
-#     Type "n" for North, "s" for South, "e" for East, "w" for West, or "q" for quit: ''')
-    
-#     # Take the player to the new location using the function above
-#     room_logic(player_input)
-
+# Define a function to handle the direction changes
 def room_logic(direction):
     # Check if player input is n, s, e, or w
     if direction == 'n' or direction == 's' or direction == 'e' or direction == 'w':
@@ -195,7 +70,7 @@ def room_logic(direction):
         # If there is nothing in that direction
         if not getattr(player.current_room, move):
             print(f'\nOops, you can not go that way! Going back to {player.current_room.name}.')
-        
+
         # Move to the new location
         else:
             player.current_room = getattr(player.current_room, move)
@@ -208,6 +83,7 @@ def room_logic(direction):
     else: 
         print(f'\nInvalid input, going back to the {player.current_room.name}.')
 
+# Define a function for the inventory items
 def inv_items(take_item):
     # If the player wants to take the item
     if take_item.lower() == 'y':
@@ -217,18 +93,18 @@ def inv_items(take_item):
 
         # Prompt player with option of removing an item from their inventory
         drop_item = input('\nWould you like to drop an item? y = yes / n = no: ')
-        
+
         # If the player chooses to remove item from inventory
         if drop_item.lower() == 'y':
             item_to_drop = str(input(f'\nWhat would you like to remove from your inventory? '))
             player.rem_item(item_to_drop)
             print(f'  * This is your inventory now:\n{player.inventory}')
-    
+
     # Let player know they are leaving the item
     else:
         print(f'\nYou are leaving {player.current_room.inventory.name} behind.')
         print(f'  * This is your current inventory:\n{player.inventory}')
-        
+
 # Create an empty variable to hold the player input
 player_input = ''
 
